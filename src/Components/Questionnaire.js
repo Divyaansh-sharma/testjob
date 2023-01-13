@@ -48,12 +48,13 @@ const Questionnaire = ({ data }) => {
         check()
     }
 
-
-    console.log(data[0].question);
     const mapped = data.map((d) => {
         return d.question.replaceAll(('%20', ' ').replaceAll('%', ''))
     })
-    const question = (mapped[questions].replaceAll('%20', ' ').replaceAll('%', ' '));
+
+    const question = (mapped[questions]
+        .replaceAll('%20', ' ')
+        .replaceAll('%', ' '));
 
     return (
         <div>
@@ -85,7 +86,8 @@ const Questionnaire = ({ data }) => {
                         return (
                             <>
                                 <button onClick={onWrongClick}>
-                                    {n.replaceAll('%20', ' ').replaceAll('%', ' ')}
+                                    {n.replaceAll('%20', ' ')
+                                        .replaceAll('%', ' ')}
                                 </button>
                             </>
                         )
