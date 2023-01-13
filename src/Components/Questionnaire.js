@@ -71,7 +71,13 @@ const Questionnaire = ({ data }) => {
                 {/* Question */}
                 <p
                     className={styles.question}>
-                    {question.replaceAll('%20', ' ').replaceAll('%', ' ') + ' ?'}
+                    {question.replaceAll('%20', ' ')
+                        .replaceAll('%', ' ')
+                        .replaceAll('27', ' ')
+                        .replaceAll('3F', ' ')
+                        .replaceAll('22', ' ')
+                        .replaceAll('2C', ' ')
+                        + ' ?'}
                 </p>
                 {/* option */}
                 <div className={styles.option}>
@@ -92,10 +98,12 @@ const Questionnaire = ({ data }) => {
             </>
             {/* Message */}
             <div>
-
                 {correctMessage && <p className={styles.msg}>Correct</p>}
                 {incorrectMessage && <p className={styles.msg}>Sorry</p>}
-                <button className={styles.nextQuestion} onClick={onClickNextbtn}>Next Question</button>
+
+                <button className={styles.nextQuestion}
+                    onClick={onClickNextbtn}>Next Question
+                </button>
             </div>
             {/* bottomBar */}
 
