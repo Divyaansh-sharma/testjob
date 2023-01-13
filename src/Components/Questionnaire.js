@@ -18,10 +18,11 @@ const Questionnaire = ({ data }) => {
     const difficulty = data[questions].difficulty;
 
     const onClickNext = (e) => {
+        setError(false)
         setstar(0)
         setGreen(false)
         const nextQuestion = questions + 1;
-        if (nextQuestion <= length) {
+        if (nextQuestion < length) {
             setQuestions(nextQuestion)
         }
         console.log('wright answer');
@@ -46,6 +47,7 @@ const Questionnaire = ({ data }) => {
     }
 
     const onWrongClick = () => {
+        setError(true)
         check()
     }
 
@@ -60,7 +62,11 @@ const Questionnaire = ({ data }) => {
         <div>
             <>
                 <ProgressBar question={questions} />
-                <Topbar star={star} question={questions} difficulty={difficulty} length={length} categories={categories} />
+                <Topbar star={star}
+                    question={questions}
+                    difficulty={difficulty}
+                    length={length}
+                    categories={categories} />
 
                 {/* Question */}
 
@@ -78,10 +84,12 @@ const Questionnaire = ({ data }) => {
                 </div>
 
             </>
+            <div>
 
-            {green && <p className={styles.msg}>Correct</p>}
-            {/* {error && <p className={styles.msg}>Incorrect</p>} */}
-            <button className={styles.nextQuestion} onClick={onClickNext}>Next Question</button>
+                {green && <p className={styles.msg}>Correct</p>}
+                {error && <p className={styles.msg}>Sorry</p>}
+                <button className={styles.nextQuestion} onClick={onClickNext}>Next Question</button>
+            </div>
 
             <BottomBar countCorrect={countCorrect} />
         </div>

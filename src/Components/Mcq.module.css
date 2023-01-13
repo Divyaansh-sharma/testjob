@@ -40,9 +40,11 @@
 }
 
 .msg {
-  margin-top: 100px;
+  margin-top: 70px;
+  position: fixed;
+  margin-bottom: 0;
   margin-left: 700px;
-  font-size: 22px;
+  font-size: 32px;
 }
 
 .progressBar {
@@ -59,9 +61,10 @@
 }
 
 .bar {
-  margin-top: 80px !important;
+  margin-top: 180px !important;
   width: 50vw;
   margin: auto;
   height: 40px;
   border-radius: 7px;
+  /* position: fixed; */
 }

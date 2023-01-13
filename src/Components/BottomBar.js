@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styles from './Mcq.module.css'
 
 const BottomBar = ({ countCorrect }) => {
+
     // const [score, setScore] = useState(0);
     console.log(countCorrect, 'ttttttttt')
     const score = countCorrect * 100 / 20;
@@ -11,9 +12,12 @@ const BottomBar = ({ countCorrect }) => {
         <div className={styles.bar}>
             <div style=
                 {{
-                    width: `${countCorrect * 2}%`, backgroundColor: 'black', height: '40px'
+                    width: `${countCorrect * 4}%`, maxWidth: '70%', backgroundColor: 'black', height: '40px'
                 }} ></div>
-            {`You scored ${score}% out of 100% `}
+            <p>
+                {`You scored ${score} out  of 100 `}
+
+            </p>
         </div>
     )
 }
