@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import styles from './Mcq.module.css'
-
 import Rating from '@mui/material/Rating';
 // hard easy medium
 
@@ -14,7 +13,7 @@ const Topbar = (props) => {
 
     return (
         <div>
-            <p className={styles.para}>Question  {props.question} of {props.length - 1}</p>
+            <p className={styles.para}>Question  {props.question} of {props.length}</p>
 
             <div className={styles.categories}>{props.categories.replaceAll('%', ' ')}</div>
             <div className={styles.readby}>

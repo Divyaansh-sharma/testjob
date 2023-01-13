@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Topbar from './Topbar';
+import QuestionCategory from './QuestionSection';
 import styles from './Mcq.module.css'
 import ProgressBar from './ProgressBar';
 import BottomBar from './BottomBar';
@@ -7,33 +7,29 @@ import BottomBar from './BottomBar';
 const Questionnaire = ({ data }) => {
     const [questions, setQuestions] = useState(0);
     const [star, setstar] = useState(0);
-    const [green, setGreen] = useState(false);
-    const [error, setError] = useState(false);
+    const [correctMessage, setcorrectMessage] = useState(false);
+    const [incorrectMessage, setincorrectMessage] = useState(false);
     const [countCorrect, setCountCorrect] = useState(0);
     const length = data.length;
-    const wrongAnswers = (data[questions].incorrect_answers)
-    console.log(wrongAnswers[0]);
-
     const categories = data[questions].category;
     const difficulty = data[questions].difficulty;
 
-    const onClickNext = (e) => {
-        setError(false)
+    const onClickNextbtn = (e) => {
+        setincorrectMessage(false)
         setstar(0)
-        setGreen(false)
+        setcorrectMessage(false)
         const nextQuestion = questions + 1;
         if (nextQuestion < length) {
             setQuestions(nextQuestion)
         }
-        console.log('wright answer');
     }
 
 
-    const handleClick = () => {
+    const onClickRightbtn = () => {
+        setincorrectMessage(false)
         setCountCorrect(countCorrect + 1)
         check()
-        setGreen(true)
-        console.log('wright answer');
+        setcorrectMessage(true)
     }
 
     const check = () => {
@@ -47,7 +43,8 @@ const Questionnaire = ({ data }) => {
     }
 
     const onWrongClick = () => {
-        setError(true)
+        setincorrectMessage(true)
+        setcorrectMessage(false)
         check()
     }
 
@@ -62,34 +59,45 @@ const Questionnaire = ({ data }) => {
         <div>
             <>
                 <ProgressBar question={questions} />
-                <Topbar star={star}
+
+                <QuestionCategory
+                    star={star}
                     question={questions}
                     difficulty={difficulty}
                     length={length}
-                    categories={categories} />
+                    categories={categories}
+                />
 
                 {/* Question */}
-
-                <p className={styles.question}> {question.replaceAll('%20', ' ').replaceAll('%', ' ') + ' ?'}</p>
-                <br />
+                <p
+                    className={styles.question}>
+                    {question.replaceAll('%20', ' ').replaceAll('%', ' ') + ' ?'}
+                </p>
+                {/* option */}
                 <div className={styles.option}>
                     {data[questions].incorrect_answers.map((n) => {
                         return (
                             <>
-                                <button onClick={onWrongClick}>{n.replaceAll('%20', ' ').replaceAll('%', ' ')}</button>
+                                <button onClick={onWrongClick}>
+                                    {n.replaceAll('%20', ' ').replaceAll('%', ' ')}
+                                </button>
                             </>
                         )
                     })}
-                    <button onClick={handleClick}>{data[questions].correct_answer.replaceAll('%20', ' ')}</button>
+                    <button onClick={onClickRightbtn}>
+                        {data[questions].correct_answer.replaceAll('%20', ' ')}
+                    </button>
                 </div>
 
             </>
+            {/* Message */}
             <div>
 
-                {green && <p className={styles.msg}>Correct</p>}
-                {error && <p className={styles.msg}>Sorry</p>}
-                <button className={styles.nextQuestion} onClick={onClickNext}>Next Question</button>
+                {correctMessage && <p className={styles.msg}>Correct</p>}
+                {incorrectMessage && <p className={styles.msg}>Sorry</p>}
+                <button className={styles.nextQuestion} onClick={onClickNextbtn}>Next Question</button>
             </div>
+            {/* bottomBar */}
 
             <BottomBar countCorrect={countCorrect} />
         </div>
