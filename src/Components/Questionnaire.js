@@ -6,6 +6,7 @@ import BottomBar from './BottomBar';
 
 const Questionnaire = ({ data }) => {
     const [questions, setQuestions] = useState(0);
+    const [color, setColor] = useState(false);
     const [star, setstar] = useState(0);
     const [correctMessage, setcorrectMessage] = useState(false);
     const [incorrectMessage, setincorrectMessage] = useState(false);
@@ -15,6 +16,7 @@ const Questionnaire = ({ data }) => {
     const difficulty = data[questions].difficulty;
 
     const onClickNextbtn = (e) => {
+        setColor(false)
         setincorrectMessage(false)
         setstar(0)
         setcorrectMessage(false)
@@ -25,7 +27,8 @@ const Questionnaire = ({ data }) => {
     }
 
 
-    const onClickRightbtn = () => {
+    const onrightClick = () => {
+        setColor(true);
         setincorrectMessage(false)
         setCountCorrect(countCorrect + 1)
         check()
@@ -33,9 +36,9 @@ const Questionnaire = ({ data }) => {
     }
 
     const check = () => {
-        if (difficulty == 'hard') {
+        if (difficulty === 'hard') {
             setstar(3)
-        } else if (difficulty == 'medium') {
+        } else if (difficulty === 'medium') {
             setstar(2)
         } else {
             setstar(1)
@@ -49,55 +52,60 @@ const Questionnaire = ({ data }) => {
     }
 
     const mapped = data.map((d) => {
-        return d.question.replaceAll(('%20', ' ').replaceAll('%', ''))
+        return d.question
     })
 
     const question = (mapped[questions]
         .replaceAll('%20', ' ')
-        .replaceAll('%', ' '));
+        .replaceAll('%', ' '))
+        .replaceAll('%', ' ')
+        .replaceAll('27', ' ')
+        .replaceAll('3F', ' ')
+        .replaceAll('22', ' ')
+        .replaceAll('2C', ' ')
+        + ' ?';
+
+    const id = [1, 2, 3, 4]
 
     return (
-        <div>
-            <>
-                <ProgressBar question={questions} />
+        <React.Fragment>
 
-                <QuestionCategory
-                    star={star}
-                    question={questions}
-                    difficulty={difficulty}
-                    length={length}
-                    categories={categories}
-                />
+            <ProgressBar question={questions} />
 
-                {/* Question */}
-                <p
-                    className={styles.question}>
-                    {question.replaceAll('%20', ' ')
-                        .replaceAll('%', ' ')
-                        .replaceAll('27', ' ')
-                        .replaceAll('3F', ' ')
-                        .replaceAll('22', ' ')
-                        .replaceAll('2C', ' ')
-                        + ' ?'}
-                </p>
-                {/* option */}
-                <div className={styles.option}>
-                    {data[questions].incorrect_answers.map((n) => {
-                        return (
-                            <>
-                                <button onClick={onWrongClick}>
-                                    {n.replaceAll('%20', ' ')
-                                        .replaceAll('%', ' ')}
-                                </button>
-                            </>
-                        )
-                    })}
-                    <button onClick={onClickRightbtn}>
-                        {data[questions].correct_answer.replaceAll('%20', ' ')}
-                    </button>
-                </div>
+            <QuestionCategory
+                star={star}
+                question={questions}
+                difficulty={difficulty}
+                length={length}
+                categories={categories}
+            />
 
-            </>
+            {/* Question */}
+
+            <p
+                className={styles.question}>
+                {question}
+            </p>
+            {/* option btn */}
+            <div className={styles.option}>
+                {data[questions].incorrect_answers.map((n) => {
+                    return (
+                        <button
+                            key={Math.random().toString()}
+                            onClick={onWrongClick}>
+                            {n.replaceAll('%20', ' ')
+                                .replaceAll('%', ' ')}
+                        </button>
+                    )
+                })}
+                <button
+                    className={color ? styles.successMsg : ''}
+                    onClick={onrightClick}>
+                    {data[questions].correct_answer.replaceAll('%20', ' ')}
+                </button>
+            </div>
+
+
             {/* Message */}
             <div>
                 {correctMessage && <p className={styles.msg}>Correct</p>}
@@ -110,7 +118,7 @@ const Questionnaire = ({ data }) => {
             {/* bottomBar */}
 
             <BottomBar countCorrect={countCorrect} />
-        </div>
+        </React.Fragment>
     )
 }
 export default Questionnaire;
