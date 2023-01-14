@@ -65,7 +65,6 @@ const Questionnaire = ({ data }) => {
         .replaceAll('2C', ' ')
         + ' ?';
 
-    const id = [1, 2, 3, 4]
 
     return (
         <React.Fragment>
