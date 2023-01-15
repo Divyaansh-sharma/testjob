@@ -5,15 +5,23 @@ import ProgressBar from './ProgressBar';
 import BottomBar from './BottomBar';
 
 const Questionnaire = ({ data }) => {
+    console.log(data);
     const [questions, setQuestions] = useState(0);
     const [color, setColor] = useState(false);
     const [star, setstar] = useState(0);
     const [correctMessage, setcorrectMessage] = useState(false);
     const [incorrectMessage, setincorrectMessage] = useState(false);
     const [countCorrect, setCountCorrect] = useState(0);
+    const [id, setId] = useState(0);
     const length = data.length;
     const categories = data[questions].category;
     const difficulty = data[questions].difficulty;
+
+    data = data.map((item, i) => {
+        item.incorrect_answers = [...new Set([...item.incorrect_answers, item.correct_answer])];
+        return item;
+    });
+    console.log(data);
 
     const onClickNextbtn = (e) => {
         setColor(false)
@@ -26,14 +34,6 @@ const Questionnaire = ({ data }) => {
         }
     }
 
-
-    const onrightClick = () => {
-        setColor(true);
-        setincorrectMessage(false)
-        setCountCorrect(countCorrect + 1)
-        check()
-        setcorrectMessage(true)
-    }
 
     const check = () => {
         if (difficulty === 'hard') {
@@ -51,11 +51,11 @@ const Questionnaire = ({ data }) => {
         check()
     }
 
-    const mapped = data.map((d) => {
-        return d.question
+    const Question = data.map((que) => {
+        return que.question
     })
 
-    const question = (mapped[questions]
+    const question = (Question[questions]
         .replaceAll('%20', ' ')
         .replaceAll('%', ' '))
         .replaceAll('%', ' ')
@@ -64,7 +64,9 @@ const Questionnaire = ({ data }) => {
         .replaceAll('22', ' ')
         .replaceAll('2C', ' ')
         + ' ?';
+    console.log(question, 'p');
 
+    console.log(id, 'key')
 
     return (
         <React.Fragment>
@@ -87,21 +89,30 @@ const Questionnaire = ({ data }) => {
             </p>
             {/* option btn */}
             <div className={styles.option}>
-                {data[questions].incorrect_answers.map((n) => {
+                {data[questions].incorrect_answers.map((ans, i) => {
                     return (
-                        <button
-                            key={Math.random().toString()}
-                            onClick={onWrongClick}>
-                            {n.replaceAll('%20', ' ')
+                        <button className={`button${i}`}
+                            key={`button-${i}`}
+                            onClick={(e) => {
+                                setId(i)
+                                console.log(i, 'key')
+                                if (ans == data[questions].correct_answer) {
+                                    setcorrectMessage(true)
+                                    setincorrectMessage(false)
+                                    setCountCorrect(countCorrect + 1)
+
+                                }
+                                else {
+                                    console.log("Incorrect!");
+                                    onWrongClick();
+                                }
+                            }}>
+                            {ans.replaceAll('%20', ' ')
                                 .replaceAll('%', ' ')}
+
                         </button>
                     )
                 })}
-                <button
-                    className={color ? styles.successMsg : ''}
-                    onClick={onrightClick}>
-                    {data[questions].correct_answer.replaceAll('%20', ' ')}
-                </button>
             </div>
 
 

@@ -57,7 +57,7 @@
   margin-bottom: 150px;
   height: 30px;
   width: 30px;
-  background-color: red;
+  /* background-color: red; */
 }
 
 .bar {
@@ -69,8 +69,12 @@
   /* position: fixed; */
 }
 
-.successMsg {
-  background-color: black;
-  border: none;
+.msg {
+  background-color: white;
+}
+
+.correctanswerbtn {
+  background-color: green;
   color: white;
+  font-weight: bold;
 }

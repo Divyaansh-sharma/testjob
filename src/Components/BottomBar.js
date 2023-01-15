@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styles from './Mcq.module.css'
 
 const BottomBar = ({ countCorrect }) => {
 
     // const [score, setScore] = useState(0);
-    console.log(countCorrect, 'ttttttttt')
+    // console.log(countCorrect, 'ttttttttt')
     const score = countCorrect * 100 / 20;
 
 
